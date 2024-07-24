@@ -6,6 +6,7 @@ namespace LaswitchTech\coreSLS;
 // Import additionnal class into the global namespace
 use LaswitchTech\coreBase\BaseCommand;
 use LaswitchTech\coreSLS\SLS;
+use Exception;
 
 class Command extends BaseCommand {
 
@@ -35,31 +36,37 @@ class Command extends BaseCommand {
 
         // Namespace: /sls/create $type = null $product = null
 
-        // Initialize variables
-        $type = null;
-        $product = null;
+        try{
 
-        // Check if type is provided
-        if (isset($argv[0])) {
-            $type = $argv[0];
-        } else {
-            $this->error("Missing parameters");
-            return;
-        }
+            // Initialize variables
+            $type = null;
+            $product = null;
 
-        // Check if product is provided
-        if (isset($argv[1])) {
-            $product = $argv[1];
-        }
+            // Check if type is provided
+            if (isset($argv[0])) {
+                $type = $argv[0];
+            } else {
+                throw new Exception("Missing parameters");
+            }
 
-        // Create the license
-        $result = $this->SLS->create($type, $product);
+            // Check if product is provided
+            if (isset($argv[1])) {
+                $product = $argv[1];
+            }
 
-        // Return the result
-        if($result['status'] == 'valid'){
-            $this->success(json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-        } else {
-            $this->error(json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            // Create the license
+            $result = $this->SLS->create($type, $product);
+
+            // Return the result
+            if($result['status'] == 'valid'){
+                $this->success(json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            } else {
+                $this->error(json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            }
+        } catch (Exception $e) {
+
+            // Return the error
+            $this->error($e->getMessage());
         }
     }
 
