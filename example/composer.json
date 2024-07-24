@@ -1,0 +1,8 @@
+{
+    "require": {
+        "laswitchtech/core-cli": "^1.0",
+        "laswitchtech/core-api": "^1.0",
+        "laswitchtech/core-router": "^1.0",
+        "laswitchtech/core-sls": "^1.0"
+    }
+}
