@@ -51,16 +51,16 @@
         },
         {
             "name": "laswitchtech/core-database",
-            "version": "v1.0.1",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LaswitchTech/coreDatabase.git",
-                "reference": "7e10f95a08f51889bd9bfe352e7bacf70c05c7b7"
+                "reference": "b238405d5906eb374775a6c87d12bc75537cf5d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LaswitchTech/coreDatabase/zipball/7e10f95a08f51889bd9bfe352e7bacf70c05c7b7",
-                "reference": "7e10f95a08f51889bd9bfe352e7bacf70c05c7b7",
+                "url": "https://api.github.com/repos/LaswitchTech/coreDatabase/zipball/b238405d5906eb374775a6c87d12bc75537cf5d1",
+                "reference": "b238405d5906eb374775a6c87d12bc75537cf5d1",
                 "shasum": ""
             },
             "require": {
@@ -85,7 +85,7 @@
             "description": "Database Library for the Laswitch Core Framework",
             "support": {
                 "issues": "https://github.com/LaswitchTech/coreDatabase/issues",
-                "source": "https://github.com/LaswitchTech/coreDatabase/tree/v1.0.1"
+                "source": "https://github.com/LaswitchTech/coreDatabase/tree/v1.0.3"
             },
             "funding": [
                 {
@@ -93,7 +93,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-06-27T00:06:59+00:00"
+            "time": "2024-07-24T20:30:13+00:00"
         },
         {
             "name": "laswitchtech/core-logger",
