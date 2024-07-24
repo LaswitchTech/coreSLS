@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1e1cccd129e051663f15f5716734d7bd",
+    "content-hash": "db2c51829987781df2dc603578322385",
     "packages": [
         {
             "name": "laswitchtech/core-api",
@@ -464,6 +464,52 @@
                 }
             ],
             "time": "2024-07-23T19:55:44+00:00"
+        },
+        {
+            "name": "laswitchtech/core-sls",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LaswitchTech/coreSLS.git",
+                "reference": "054a2973cf65005984e4daa6c12870281611bca8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LaswitchTech/coreSLS/zipball/054a2973cf65005984e4daa6c12870281611bca8",
+                "reference": "054a2973cf65005984e4daa6c12870281611bca8",
+                "shasum": ""
+            },
+            "require": {
+                "laswitchtech/core-database": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LaswitchTech\\coreSLS\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Louis Ouellet",
+                    "email": "louis_ouellet@hotmail.com"
+                }
+            ],
+            "description": "Software License Server Library for the Laswitch Core Framework",
+            "support": {
+                "issues": "https://github.com/LaswitchTech/coreSLS/issues",
+                "source": "https://github.com/LaswitchTech/coreSLS/tree/v1.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/LaswitchTech",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-07-24T20:58:34+00:00"
         }
     ],
     "packages-dev": [],
