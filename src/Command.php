@@ -6,6 +6,7 @@ namespace LaswitchTech\coreSLS;
 // Import additionnal class into the global namespace
 use LaswitchTech\coreBase\BaseCommand;
 use LaswitchTech\coreSLS\SLS;
+use Exception;
 
 class Command extends BaseCommand {
 
