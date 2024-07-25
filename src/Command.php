@@ -5,13 +5,13 @@ namespace LaswitchTech\coreSLS;
 
 // Import additionnal class into the global namespace
 use LaswitchTech\coreBase\BaseCommand;
-use LaswitchTech\coreSLS\SLS;
+use LaswitchTech\coreSLS\Model;
 use Exception;
 
 class Command extends BaseCommand {
 
-	// coreSLS Module
-    protected $SLS;
+	// coreSLS Properties
+    private $Model;
 
     /**
      * Constructor
@@ -21,7 +21,7 @@ class Command extends BaseCommand {
         // Namespace: /sls
 
         // Initialize SLS
-        $this->SLS = new SLS();
+        $this->Model = new Model();
 
 		// Call the parent constructor
 		parent::__construct($Auth);
@@ -55,7 +55,7 @@ class Command extends BaseCommand {
             }
 
             // Create the license
-            $result = $this->SLS->create($type, $product);
+            $result = $this->Model->create($type, $product);
 
             // Return the result
             if($result['status'] == 'valid'){
@@ -105,7 +105,7 @@ class Command extends BaseCommand {
             }
 
             // Validate the license
-            $result = $this->SLS->validate($license, $product, $user);
+            $result = $this->Model->validate($license, $product, $user);
 
             // Return the result
             if($result['status'] == 'valid'){
