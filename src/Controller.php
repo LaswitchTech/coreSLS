@@ -27,7 +27,7 @@ class Controller extends BaseController {
 		$this->Level = 1; // Set the permission level required
 
         // Initialize model
-        $this->Model = new SlsModel();
+        $this->Model = new Model();
 
 		// Call the parent constructor
 		parent::__construct($Auth);
