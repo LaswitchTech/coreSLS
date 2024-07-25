@@ -120,7 +120,7 @@ class Product {
      * @param string $duration
      * @return boolean
      */
-    public function create($description = null, $term = self::term, $duration = self::duration){
+    public function create($term = self::term, $duration = self::duration, $description = null){
 
         // Load license
         $this->load();
