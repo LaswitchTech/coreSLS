@@ -81,11 +81,15 @@ class SLS {
             if($object->create()){
 
                 // Return valid
-                return ['status' => 'valid', 'message' => 'License is created', 'license' => $object->get()];
+                if(strtolower($type) === 'product'){
+                    return ['status' => 'valid', 'message' => 'Product was created', 'product' => $object->get()];
+                } else {
+                    return ['status' => 'valid', 'message' => 'License was created', 'license' => $object->get()];
+                }
             } else {
 
                 // Return invalid
-                return ['status' => 'invalid', 'message' => 'License could not be created'];
+                return ['status' => 'invalid', 'message' => 'Object could not be created'];
             }
         } catch (Exception $e) {
 
