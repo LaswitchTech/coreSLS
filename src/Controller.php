@@ -34,6 +34,35 @@ class Controller extends BaseController {
 	}
 
     /**
+     * List licenses
+     *
+     * @return Array
+     */
+    public function licensesRouterAction(){
+
+        // Namespace: /sls/licenses
+
+        // Return the licenses
+        return $this->Model->getLicenses();
+    }
+
+    /**
+     * List licenses
+     *
+     * @output JSON
+     */
+    public function licensesAPIAction(){
+
+        // Namespace: /sls/licenses
+
+        // Send the output
+        $this->output(
+            $this->Model->getLicenses(),
+            array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+        );
+    }
+
+    /**
      * Validate license
      *
      * @output JSON
