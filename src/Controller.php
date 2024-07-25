@@ -5,12 +5,12 @@ namespace LaswitchTech\coreSLS;
 
 // Import additionnal class into the global namespace
 use LaswitchTech\coreBase\BaseController;
-use LaswitchTech\coreSLS\SLS;
+use LaswitchTech\coreSLS\Model;
 
 class Controller extends BaseController {
 
-	// coreSLS Module
-    protected $SLS;
+	// coreSLS Properties
+    private $Model;
 
     /**
      * Constructor
@@ -26,8 +26,8 @@ class Controller extends BaseController {
 		$this->Permission = false; // Set to true to require a permission for the namespace used.
 		$this->Level = 1; // Set the permission level required
 
-        // Initialize SLS
-        $this->SLS = new SLS();
+        // Initialize model
+        $this->Model = new SlsModel();
 
 		// Call the parent constructor
 		parent::__construct($Auth);
