@@ -17,6 +17,7 @@ composer.phar
 # Exclude Files
 !/config/configurator.cfg
 !/config/requirements.cfg
+!/config/routes.cfg
 
 # Exclude Locales Configurations and Translations
 !Locale/*/*.cfg
