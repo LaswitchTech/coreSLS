@@ -55,7 +55,7 @@ class Command extends BaseCommand {
             }
 
             // Create the license
-            $result = $this->Model->create($type, $product);
+            $result = $this->Model->new($type, $product);
 
             // Return the result
             if($result['status'] == 'valid'){

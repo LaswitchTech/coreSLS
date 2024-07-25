@@ -91,7 +91,7 @@ class Model extends BaseModel {
      * @param array $product
      * @return array
      */
-    public function create($type, $product = null){
+    public function new($type, $product = null){
         return $this->SLS->create($type, $product);
     }
 }
