@@ -83,17 +83,35 @@ class Controller extends BaseController {
                 throw new Exception("Missing parameters [license]");
             }
 
-            // Get license from the database
-            $url = $this->configurator->get('SLS', 'url') . '?license=' . $license . '&product=' . $product . '&user=' . $user;
+            // Check if running as server or client
+            if($this->configurator->get('SLS', 'url')){
 
-            // Get response from the server
-            $response = file_get_contents($url);
+                // Running as client
 
-            // Decode response
-            $data = json_decode($response, true);
+                // Get license from the database
+                $url = $this->configurator->get('SLS', 'url') . '?license=' . $license . '&product=' . $product . '&user=' . $user;
 
-            // Return status
-            return $data['status'] === 'valid';
+                // Get response from the server
+                $response = file_get_contents($url);
+
+                // Decode response
+                $data = json_decode($response, true);
+
+                // Send the output
+                $this->output(
+                    $data,
+                    array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+                );
+            } else {
+
+                // Running as server
+
+                // Send the output
+                $this->output(
+                    $this->Model->validate($license, $product, $user),
+                    array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+                );
+            }
         } catch (Exception $e) {
 
             // Log error
