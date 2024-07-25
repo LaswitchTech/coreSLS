@@ -43,6 +43,7 @@ composer.phar
 /schema/
 
 # Example Files
+/example/composer.lock
 /example/vendor/
 /example/webroot/
 
