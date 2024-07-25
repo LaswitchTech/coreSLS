@@ -63,6 +63,105 @@ class Controller extends BaseController {
     }
 
     /**
+     * List products
+     *
+     * @return Array
+     */
+    public function productsRouterAction(){
+
+        // Namespace: /sls/products
+
+        // Return the products
+        return $this->Model->getProducts();
+    }
+
+    /**
+     * List products
+     *
+     * @output JSON
+     */
+    public function productsAPIAction(){
+
+        // Namespace: /sls/products
+
+        // Send the output
+        $this->output(
+            $this->Model->getProducts(),
+            array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+        );
+    }
+
+    /**
+     * Create License/product
+     *
+     * @return Array
+     */
+    public function createRouterAction(){
+
+        // Namespace: /sls/create
+
+        // Initialize object
+        $object = [];
+
+        // Retrieve Parameters
+        $object['type'] = isset($_GET['type']) ? $_GET['type'] : '';
+
+        $object['terms'] = ['perpetual', 'subscription', 'trial'];
+        $object['durations'] = ['day', 'week', 'month', 'year'];
+        $object['products'] = $this->Model->getProducts();
+
+        // Check request method
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            // Check for required parameters
+            switch($object['type']){
+                case 'product':
+                    foreach(['name', 'description', 'term', 'duration'] as $param){
+                        if (!isset($_POST[$param]) || empty($_POST[$param])) {
+                            $object['status'] = 'invalid';
+                            $object['message'] = 'Missing required parameters: ' . $param;
+                            break;
+                        }
+                    }
+                    $result = $this->Model->new($object['type'], $_POST['name']);
+                    $object['status'] = $result['status'];
+                    $object['message'] = $result['message'];
+                    if(isset($result['product'])){
+                        $this->Model->update("UPDATE `products` SET `description` = ?, `term` = ?, `duration` = ? WHERE `id` = ?", [$_POST['description'], $_POST['term'], $_POST['duration'], $result['product']]);
+                        $_POST = [];
+                    }
+                    break;
+                case 'license':
+                    foreach(['product', 'term', 'duration'] as $param){
+                        if (!isset($_POST[$param]) || empty($_POST[$param])) {
+                            $object['status'] = 'invalid';
+                            $object['message'] = 'Missing required parameters: ' . $param;
+                            break;
+                        }
+                    }
+                    $result = $this->Model->new($object['type'], $_POST['product']);
+                    $object['status'] = $result['status'];
+                    $object['message'] = $result['message'];
+                    if(isset($result['license'])){
+                        $this->Model->update("UPDATE `licenses` SET `product` = ?, `term` = ?, `duration` = ? WHERE `license` = ?", [$_POST['product'], $_POST['term'], $_POST['duration'], $result['license']]);
+                        if(isset($_POST['user']) && !empty($_POST['user'])){
+                            $this->Model->update("UPDATE `licenses` SET `user` = ? WHERE `license` = ?", [$_POST['user'], $result['license']]);
+                        }
+                        $_POST = [];
+                    }
+                    break;
+                default:
+                    $object['status'] = 'invalid';
+                    $object['message'] = 'Invalid type';
+                    break;
+            }
+        }
+
+        // Return
+        return $object;
+    }
+
+    /**
      * Validate license
      *
      * @output JSON
