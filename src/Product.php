@@ -144,7 +144,18 @@ class Product {
      *
      * @return string
      */
-    public function get(){
+    public function getProduct(){
+
+        // Return product id
+        return $this->product;
+    }
+
+    /**
+     * Get id
+     *
+     * @return string
+     */
+    public function getId(){
 
         // Return product id
         return $this->id;

@@ -297,9 +297,20 @@ class License {
      *
      * @return string
      */
-    public function get(){
+    public function getLicense(){
 
         // Return license
         return $this->license;
+    }
+
+    /**
+     * Get id
+     *
+     * @return string
+     */
+    public function getId(){
+
+        // Return license
+        return $this->id;
     }
 }
