@@ -81,11 +81,15 @@ class SLS {
             if($object->create()){
 
                 // Return valid
-                return ['status' => 'valid', 'message' => 'License is created', 'license' => $object->get()];
+                if(strtolower($type) === 'product'){
+                    return ['status' => 'valid', 'message' => 'Product was created', 'product' => $object->getId()];
+                } else {
+                    return ['status' => 'valid', 'message' => 'License was created', 'license' => $object->getId()];
+                }
             } else {
 
                 // Return invalid
-                return ['status' => 'invalid', 'message' => 'License could not be created'];
+                return ['status' => 'invalid', 'message' => 'Object could not be created'];
             }
         } catch (Exception $e) {
 
@@ -130,6 +134,43 @@ class SLS {
 
             // Log error
             $this->Logger->error('Error in validate method: ' . $e->getMessage());
+
+            // Return false
+            return ['status' => 'invalid', 'message' => 'Exception occurred'];
+        }
+    }
+
+    /**
+     * Renew license
+     *
+     * @param string $license
+     * @return array
+     */
+    public function renew($license){
+        try {
+
+            // Check if license is empty
+            if (empty($license)) {
+                return ['status' => 'invalid', 'message' => 'Missing parameters'];
+            }
+
+            // Create object
+            $object = new License($license);
+
+            // Check status
+            if($object->renew()){
+
+                // Return valid
+                return ['status' => 'valid', 'message' => 'License was renewed'];
+            } else {
+
+                // Return invalid
+                return ['status' => 'invalid', 'message' => 'License could not be renewed'];
+            }
+        } catch (Exception $e) {
+
+            // Log error
+            $this->Logger->error('Error in renew method: ' . $e->getMessage());
 
             // Return false
             return ['status' => 'invalid', 'message' => 'Exception occurred'];

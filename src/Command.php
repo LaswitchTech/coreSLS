@@ -71,6 +71,112 @@ class Command extends BaseCommand {
     }
 
     /**
+     * List licenses
+     *
+     * @output String
+     */
+    public function licensesAction($argv){
+
+        // Namespace: /sls/licenses $limit = null
+
+        try{
+
+            // Initialize variables
+            $limit = null;
+
+            // Check if limit is provided
+            if (isset($argv[0])) {
+                $limit = $argv[0];
+            }
+
+            // Get the licenses
+            $result = $this->Model->getLicenses($limit);
+
+            // Retrieve columns names and max length
+            $columns = [];
+            foreach($this->Model->query("SHOW COLUMNS FROM `licenses`") as $column){
+                $columns[$column['Field']] = $this->Model->query("SELECT MAX(CHAR_LENGTH(".$column['Field'].")) AS max_length FROM `licenses`")[0]['max_length'];
+                $columns[$column['Field']] = strlen($column['Field']) > $columns[$column['Field']] ? strlen($column['Field']) : $columns[$column['Field']];
+            }
+            $columns['expire'] = strlen("0000-00-00 00:00:00");
+
+            // Output Header
+            $this->output("|-" . str_pad('', $columns['id'], "-", STR_PAD_LEFT) . "-|-" . str_pad('', $columns['license'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['product'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['user'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['term'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['duration'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['expire'], "-", STR_PAD_RIGHT) . "-|");
+            $this->output("| " . str_pad('ID', $columns['id'], " ", STR_PAD_LEFT) . " | " . str_pad('License', $columns['license'], " ", STR_PAD_RIGHT) . " | " . str_pad('Product', $columns['product'], " ", STR_PAD_RIGHT) . " | " . str_pad('User', $columns['user'], " ", STR_PAD_RIGHT) . " | " . str_pad('Term', $columns['term'], " ", STR_PAD_RIGHT) . " | " . str_pad('Duration', $columns['duration'], " ", STR_PAD_RIGHT) . " | " . str_pad('Expire', $columns['expire'], " ", STR_PAD_RIGHT) . " |");
+            $this->output("|-" . str_pad('', $columns['id'], "-", STR_PAD_LEFT) . "-|-" . str_pad('', $columns['license'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['product'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['user'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['term'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['duration'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['expire'], "-", STR_PAD_RIGHT) . "-|");
+
+            // Output list of licenses
+            foreach($result as $id => $license){
+                foreach($license as $key => $value){
+                    $license[$key] = $value ? $value : 'N/A';
+                }
+                if($license['expire'] != 'N/A'){
+                    $license['expire'] = date('Y-m-d H:i:s', $license['expire']);
+                }
+                $this->output("| " . str_pad($license['id'], $columns['id'], " ", STR_PAD_LEFT) . " | " . str_pad($license['license'], $columns['license'], " ", STR_PAD_RIGHT) . " | " . str_pad($license['product'], $columns['product'], " ", STR_PAD_RIGHT) . " | " . str_pad($license['user'], $columns['user'], " ", STR_PAD_RIGHT) . " | " . str_pad($license['term'], $columns['term'], " ", STR_PAD_RIGHT) . " | " . str_pad($license['duration'], $columns['duration'], " ", STR_PAD_RIGHT) . " | " . str_pad($license['expire'], $columns['expire'], " ", STR_PAD_RIGHT) . " |");
+            }
+
+            // Output Footer
+            $this->output("|-" . str_pad('', $columns['id'], "-", STR_PAD_LEFT) . "-|-" . str_pad('', $columns['license'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['product'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['user'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['term'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['duration'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['expire'], "-", STR_PAD_RIGHT) . "-|");
+        } catch (Exception $e) {
+
+            // Return the error
+            $this->error($e->getMessage());
+        }
+    }
+
+    /**
+     * List products
+     *
+     * @output String
+     */
+    public function productsAction($argv){
+
+        // Namespace: /sls/products $limit = null
+
+        try{
+
+            // Initialize variables
+            $limit = null;
+
+            // Check if limit is provided
+            if (isset($argv[0])) {
+                $limit = $argv[0];
+            }
+
+            // Get the products
+            $result = $this->Model->getProducts($limit);
+
+            // Retrieve columns names and max length
+            $columns = [];
+            foreach($this->Model->query("SHOW COLUMNS FROM `products`") as $column){
+                $columns[$column['Field']] = $this->Model->query("SELECT MAX(CHAR_LENGTH(".$column['Field'].")) AS max_length FROM `products`")[0]['max_length'];
+                $columns[$column['Field']] = strlen($column['Field']) > $columns[$column['Field']] ? strlen($column['Field']) : $columns[$column['Field']];
+            }
+
+            // Output Header
+            $this->output("|-" . str_pad('', $columns['id'], "-", STR_PAD_LEFT) . "-|-" . str_pad('', $columns['name'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['description'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['term'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['duration'], "-", STR_PAD_RIGHT) . "-|");
+            $this->output("| " . str_pad('ID', $columns['id'], " ", STR_PAD_LEFT) . " | " . str_pad('Name', $columns['name'], " ", STR_PAD_RIGHT) . " | " . str_pad('Description', $columns['description'], " ", STR_PAD_RIGHT) . " | " . str_pad('Term', $columns['term'], " ", STR_PAD_RIGHT) . " | " . str_pad('Duration', $columns['duration'], " ", STR_PAD_RIGHT) . " |");
+            $this->output("|-" . str_pad('', $columns['id'], "-", STR_PAD_LEFT) . "-|-" . str_pad('', $columns['name'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['description'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['term'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['duration'], "-", STR_PAD_RIGHT) . "-|");
+
+            // Output list of products
+            foreach($result as $id => $product){
+                foreach($product as $key => $value){
+                    $product[$key] = $value ? $value : 'N/A';
+                }
+                $this->output("| " . str_pad($product['id'], $columns['id'], " ", STR_PAD_LEFT) . " | " . str_pad($product['name'], $columns['name'], " ", STR_PAD_RIGHT) . " | " . str_pad($product['description'], $columns['description'], " ", STR_PAD_RIGHT) . " | " . str_pad($product['term'], $columns['term'], " ", STR_PAD_RIGHT) . " | " . str_pad($product['duration'], $columns['duration'], " ", STR_PAD_RIGHT) . " |");
+            }
+
+            // Output Footer
+            $this->output("|-" . str_pad('', $columns['id'], "-", STR_PAD_LEFT) . "-|-" . str_pad('', $columns['name'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['description'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['term'], "-", STR_PAD_RIGHT) . "-|-" . str_pad('', $columns['duration'], "-", STR_PAD_RIGHT) . "-|");
+        } catch (Exception $e) {
+
+            // Return the error
+            $this->error($e->getMessage());
+        }
+    }
+
+    /**
      * Validate license
      *
      * @output String
