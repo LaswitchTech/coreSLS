@@ -70,4 +70,3 @@
         </form>
     </div>
 </div>
-<pre><?php var_dump($this->Return); ?></pre>
