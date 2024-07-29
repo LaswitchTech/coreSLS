@@ -70,8 +70,19 @@ class Model extends BaseModel {
      * @param int $id
      * @return array
      */
-    public function getLicense($id) {
-        return $this->select("SELECT * FROM licenses WHERE id = ?", [$id]);
+    public function getLicense($license) {
+        $license = $this->select("SELECT * FROM `licenses` WHERE `license` = ?", [$license]);
+        return count($license) ? $license[0] : [];
+    }
+
+    /**
+     * Delete license
+     *
+     * @param int $id
+     * @return array
+     */
+    public function deleteLicense($license) {
+        return $this->delete("DELETE FROM `licenses` WHERE `license` = ?", [$license]);
     }
 
     /**
