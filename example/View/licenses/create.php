@@ -39,7 +39,7 @@
                 <select class="form-select" id="product" aria-label="product" name="product">
                     <option value="" <?= isset($_POST['product']) ? '' : 'selected' ?>>Select Product</option>
                     <?php foreach($this->Return['products'] as $product): ?>
-                        <option value="<?= $product['id'] ?>" <?= isset($_POST['product']) && $_POST['product'] === $product['name'] ? 'selected' : '' ?>><?= ucfirst($product['name']) ?> - <?= ucfirst($product['description']) ?></option>
+                        <option value="<?= $product['id'] ?>" <?= isset($_POST['product']) && $_POST['product'] === $product['id'] ? 'selected' : '' ?>><?= ucfirst($product['name']) ?><?= $product['description'] ? " - ".ucfirst($product['description']) : "" ?></option>
                     <?php endforeach; ?>
                 </select>
                 <label for="product">Product</label>
