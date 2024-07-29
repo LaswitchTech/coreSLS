@@ -89,19 +89,19 @@ class Product {
     protected function save(){
         try{
 
-            // Check if license is new
+            // Check if product is new
             if($this->id){
 
-                // Update license
+                // Update product
                 $this->Database->update("UPDATE `products` SET `name` = ?, `description` = ?, `term` = ?, `duration` = ? WHERE `id` = ?", [$this->product, $this->description, $this->term, $this->duration, $this->id]);
             } else {
 
-                // Insert license
+                // Insert product
                 $this->id = $this->Database->insert("INSERT INTO `products` (`name`, `description`, `term`, `duration`) VALUES (?, ?, ?, ?)", [$this->product, $this->description, $this->term, $this->duration]);
             }
 
-            // Return license
-            return $this->product;
+            // Return id
+            return $this->id;
         } catch (Exception $e) {
 
             // Log error
