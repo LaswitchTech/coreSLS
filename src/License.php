@@ -8,6 +8,7 @@ use LaswitchTech\coreConfigurator\Configurator;
 use LaswitchTech\coreDatabase\Database;
 use LaswitchTech\coreLogger\Logger;
 use Exception;
+use DateTime;
 
 class License {
 
@@ -207,6 +208,9 @@ class License {
             return false;
         }
 
+        // Initialise DateTime
+        $date = new DateTime();
+
         // Generate license
         $this->license = $this->generate();
 
@@ -216,23 +220,25 @@ class License {
 
         // Set expire
         switch($this->term){
-            case 'perpetual':
-                $this->expire = null;
-                break;
+            case 'trial':
             case 'subscription':
                 switch($this->duration){
                     case 'day':
                     case 'week':
                     case 'month':
                     case 'year':
-                        $this->expire = strtotime('+1' . $this->duration);
+                        $date->setTimestamp(time());
+                        $date->modify('+1 '.$this->duration);
+                        $this->expire = $date->getTimestamp();
                         break;
-                    default:
-                        $this->expire = time();
                 }
                 break;
+            case 'perpetual':
+                $this->expire = time();
+                break;
             default:
-                $this->expire = null;
+                $this->expire = time();
+                break;
         }
 
         // Save license
@@ -254,25 +260,32 @@ class License {
             return false;
         }
 
+        // Initialise DateTime
+        $date = new DateTime();
+
         // Set expire
         switch($this->term){
-            case 'perpetual':
-                $this->expire = null;
-                break;
+            case 'trial':
             case 'subscription':
                 switch($this->duration){
                     case 'day':
                     case 'week':
                     case 'month':
                     case 'year':
-                        $this->expire = strtotime('+' . $this->duration, $this->expire);
+                        $date->setTimestamp($this->expire);
+                        $date->modify('+1 '.$this->duration);
+                        $this->expire = $date->getTimestamp();
                         break;
                     default:
                         $this->expire = time();
                 }
                 break;
+            case 'perpetual':
+                $this->expire = time();
+                break;
             default:
-                $this->expire = null;
+                $this->expire = time();
+                break;
         }
 
         // Save license
