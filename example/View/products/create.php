@@ -19,7 +19,7 @@
                 </div>
                 <div class="flex-grow-1">
                     <p class="m-0 mb-1"><strong>An error occured!</strong></p>
-                    <p class="m-0"><?= $this->Return['message'] ?>.</p>
+                    <p class="m-0"><?= $this->Return['message'] ?></p>
                 </div>
             </div>
         <?php endif; ?>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="flex-grow-1">
                     <p class="m-0 mb-1"><strong>Success!</strong></p>
-                    <p class="m-0"><?= $this->Return['message'] ?>.</p>
+                    <p class="m-0"><?= $this->Return['message'] ?></p>
                 </div>
             </div>
         <?php endif; ?>
