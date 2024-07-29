@@ -82,9 +82,9 @@ class SLS {
 
                 // Return valid
                 if(strtolower($type) === 'product'){
-                    return ['status' => 'valid', 'message' => 'Product was created', 'product' => $object->get()];
+                    return ['status' => 'valid', 'message' => 'Product was created', 'product' => $object->getId()];
                 } else {
-                    return ['status' => 'valid', 'message' => 'License was created', 'license' => $object->get()];
+                    return ['status' => 'valid', 'message' => 'License was created', 'license' => $object->getId()];
                 }
             } else {
 
