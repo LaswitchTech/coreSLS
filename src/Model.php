@@ -31,11 +31,37 @@ class Model extends BaseModel {
      * @return array
      */
     public function getLicenses($limit = null) {
+
+        // Initialize licenses
+        $licenses = [];
+
+        // Get Products
+        $products = $this->getProducts();
+
+        // Get licenses
         if($limit){
-            return $this->select("SELECT * FROM licenses ORDER BY id ASC LIMIT ?", [$limit]);
+            $records = $this->select("SELECT * FROM `licenses` ORDER BY `id` ASC LIMIT ?", [$limit]);
         } else {
-            return $this->select("SELECT * FROM licenses ORDER BY id ASC");
+            $records = $this->select("SELECT * FROM `licenses` ORDER BY `id` ASC");
         }
+
+        // Loop through records and set by id
+        foreach($records as $record){
+            $licenses[$record['id']] = $record;
+            if($record['product']){
+                if(isset($products[$record['product']])){
+                    $licenses[$record['id']]['product'] = $products[$record['product']]['name'];
+                } else {
+                    $licenses[$record['id']]['product'] = '[Deleted]';
+                }
+            }
+            if($record['expire']){
+                $licenses[$record['id']]['expire'] = date('Y-m-d H:i:s', $record['expire']);
+            }
+        }
+
+        // Return licenses
+        return $licenses;
     }
 
     /**
