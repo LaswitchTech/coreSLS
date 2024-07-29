@@ -1,8 +1,16 @@
 <div class="py-5">
     <div class="container">
-        <h1 class="display-5 fw-lighter m-0">Products <span style="font-size: 0.5em;">Create</span></h1>
-        <div class="w-100 btn-group p-3">
-            <a href="/products" class="btn btn-primary">Back</a>
+        <div class="d-flex flex-columns justify-content-start align-items-center mb-3">
+            <div class="flex-shrink-1">
+                <a href="<?= $this->getParent() ?>" class="btn btn-link text-decoration-none px-2"><i class="bi bi-chevron-left" style="font-size: 2em;"></i></a>
+            </div>
+            <div class="flex-grow-1">
+                <a href="<?= $this->getRoute() ?>" class="nav-link px-2">
+                    <h1 class="display-5 fw-lighter m-0">
+                        Product <span style="font-size: 0.5em;">Create</span>
+                    </h1>
+                </a>
+            </div>
         </div>
         <?php if(isset($this->Return['status']) && $this->Return['status'] === 'invalid'): ?>
             <div class="alert alert-danger m-3 mt-0 d-flex flex-columns" role="alert">
