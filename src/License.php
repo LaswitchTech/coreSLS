@@ -133,8 +133,8 @@ class License {
 
             if($this->id){
 
-                // Return license
-                return $this->license;
+                // Return id
+                return $this->id;
             }
 
             // Create Exception
