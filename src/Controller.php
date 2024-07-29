@@ -106,6 +106,7 @@ class Controller extends BaseController {
         // Retrieve Parameters
         $object['type'] = isset($_GET['type']) ? $_GET['type'] : '';
 
+        // Set object properties
         $object['terms'] = ['perpetual', 'subscription', 'trial'];
         $object['durations'] = ['day', 'week', 'month', 'year'];
         $object['products'] = $this->Model->getProducts();
