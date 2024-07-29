@@ -114,20 +114,31 @@ class Controller extends BaseController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Check for required parameters
+            $break = false;
             switch($object['type']){
                 case 'product':
-                    foreach(['name', 'description', 'term', 'duration'] as $param){
+                    foreach(['name', 'description', 'term'] as $param){
                         if (!isset($_POST[$param]) || empty($_POST[$param])) {
                             $object['status'] = 'invalid';
                             $object['message'] = 'Missing required parameters: ' . $param;
+                            $break = true;
                             break;
                         }
+                    }
+                    if (in_array($_POST['term'],['subscription','trial']) && (!isset($_POST['duration']) || empty($_POST['duration']))) {
+                        $object['status'] = 'invalid';
+                        $object['message'] = 'Missing required parameters: duration';
+                        $break = true;
+                    }
+                    if($break){
+                        break;
                     }
                     $result = $this->Model->new($object['type'], $_POST['name']);
                     $object['status'] = $result['status'];
                     $object['message'] = $result['message'];
                     if(isset($result['product'])){
-                        $this->Model->update("UPDATE `products` SET `description` = ?, `term` = ?, `duration` = ? WHERE `id` = ?", [$_POST['description'], $_POST['term'], $_POST['duration'], $result['product']]);
+                        $product = ['id' => $result['product'], 'name' => $_POST['name'], 'description' => $_POST['description'], 'term' => $_POST['term'], 'duration' => $_POST['duration']];
+                        $this->Model->edit("products",$product);
                         $_POST = [];
                     }
                     break;
@@ -139,14 +150,28 @@ class Controller extends BaseController {
                             break;
                         }
                     }
-                    $result = $this->Model->new($object['type'], $_POST['product']);
+                    foreach($object['products'] as $product){
+                        if($product['name'] === $_POST['product']){
+                            $product = $product['id'];
+                            break;
+                        }
+                    }
+                    if(isset($product) && !empty($product)){
+                        $result = $this->Model->new($object['type'], $product);
+                    } else {
+                        $result = $this->Model->new($object['type']);
+                    }
                     $object['status'] = $result['status'];
                     $object['message'] = $result['message'];
                     if(isset($result['license'])){
-                        $this->Model->update("UPDATE `licenses` SET `product` = ?, `term` = ?, `duration` = ? WHERE `license` = ?", [$_POST['product'], $_POST['term'], $_POST['duration'], $result['license']]);
-                        if(isset($_POST['user']) && !empty($_POST['user'])){
-                            $this->Model->update("UPDATE `licenses` SET `user` = ? WHERE `license` = ?", [$_POST['user'], $result['license']]);
+                        $license = ['id' => $result['license'], 'term' => $_POST['term'], 'duration' => $_POST['duration']];
+                        if(isset($_POST['product']) && !empty($_POST['product'])){
+                            $license['product'] = $_POST['product'];
                         }
+                        if(isset($_POST['user']) && !empty($_POST['user'])){
+                            $license['user'] = $_POST['user'];
+                        }
+                        $this->Model->edit("licenses",$license);
                         $_POST = [];
                     }
                     break;
